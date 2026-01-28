@@ -1,0 +1,30 @@
+{
+  "name": "presciption",
+  "version": "1.0.0",
+  "description": "处方生成工具",
+  "license": "AGPL-3.0",
+  "author": "jol888",
+  "type": "module",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jol888/presciption.git"
+  },
+  "scripts": {
+    "build:win": "bun build ./index.js --compile --embed-files --target bun-windows-x64 --outfile ./dist/presciption-v$npm_package_version-win-x64.exe",
+    "build:linux": "bun build ./index.js --compile --embed-files --target bun-linux-x64 --outfile ./dist/presciption-v$npm_package_version-linux-x64",
+    "build:mac": "bun build ./index.js --compile --embed-files --target bun-darwin-arm64 --outfile ./dist/presciption-v$npm_package_version-macos-arm64",
+    "build:all": "bun run build:win && bun run build:linux && bun run build:mac"
+  },
+  "dependencies": {
+    "koa": "^3.1.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-logger": "^4.0.0",
+    "node-latex": "^3.1.0",
+    "node-pdflatex": "^0.3.0"
+  },
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowDefaultImports": true
+  }
+}

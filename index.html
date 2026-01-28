@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Form</title>
+</head>
+<body>
+    <h1>Prescription Form</h1>
+    <form id="prescriptionForm">
+        <label for="templateSelect">Choose a Template:</label>
+        <select id="templateSelect">
+            <option value="">--Select Template--</option>
+            <option value="template1">Template 1</option>
+            <option value="template2">Template 2</option>
+        </select>
+        <br>
+
+        <label for="authCode">Authentication Code:</label>
+        <input type="text" id="authCode" name="authCode" required>
+        <br>
+
+        <label for="hospitalName">Hospital Name:</label>
+        <input type="text" id="hospitalName" name="hospitalName" required>
+        <br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        <br>
+
+        <label for="name">Patient Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" required>
+        <br>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" required>
+        <br>
+
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required>
+        <br>
+
+        <label for="patientId">Patient ID:</label>
+        <input type="text" id="patientId" name="patientId" required>
+        <br>
+
+        <label for="feeType">Fee Type:</label>
+        <input type="text" id="feeType" name="feeType" required>
+        <br>
+
+        <label for="diagnosis">Diagnosis:</label>
+        <textarea id="diagnosis" name="diagnosis" rows="3" required></textarea>
+        <br>
+
+        <label for="doctorName">Doctor Name:</label>
+        <input type="text" id="doctorName" name="doctorName" required>
+        <br>
+
+        <label for="fee">Fee:</label>
+        <input type="text" id="fee" name="fee" required>
+        <br>
+
+        <h2>Medicines</h2>
+        <div id="medicines">
+            <div class="medicine">
+                <label for="medicineName">Medicine Name:</label>
+                <input type="text" class="medicineName" required>
+                <label for="medicineQuantity">Quantity:</label>
+                <input type="text" class="medicineQuantity" required>
+                <label for="medicineUsage">Usage:</label>
+                <input type="text" class="medicineUsage" required>
+                <button type="button" class="removeMedicine">Remove</button>
+            </div>
+        </div>
+        <button type="button" id="addMedicine">Add Medicine</button>
+        <br>
+
+        <button type="submit">Generate Prescription</button>
+    </form>
+    <p id="statusMessage"></p>
+
+    <script>
+
+        const LEGAL_NOTICE = "【法律警告】\n您正在访问处方生成工具。非执业医师使用此工具开具处方属违法行为。点击确认代表您承诺具备合法的医师执业资格并自行承担法律责任。";
+
+        window.onload = function() {
+            if (!confirm(LEGAL_NOTICE)) {
+                document.body.innerHTML = "<h1>访问被拒绝</h1><p>您必须同意法律声明方可使用工具。</p>";
+            }
+        }
+
+        const form = document.getElementById('prescriptionForm');
+        const medicinesDiv = document.getElementById('medicines');
+        const addMedicineButton = document.getElementById('addMedicine');
+        const statusMessage = document.getElementById('statusMessage');
+        const templateSelect = document.getElementById('templateSelect');
+
+        const templates = {
+            template1: {
+                hospitalName: '广州医科大学附属脑科医院',
+                date: '2025-12-27',
+                name: '侯国玉',
+                gender: '男性',
+                age: '30 岁',
+                department: '精神科',
+                patientId: '61491401',
+                feeType: '自费',
+                diagnosis: '躯体忧虑障碍 (6C20)\\ 重度\\ 确诊\\ \\ 抑郁状态',
+                doctorName: '赵紫羊',
+                fee: '216.84元',
+                medicines: [
+                    { name: '普瑞巴林胶囊（喜思平）\\hfill 75mg*90粒/瓶', quantity: '1 瓶', usage: '150mg Bid. 口服 慢性病' },
+                    { name: '氟西汀胶囊（百忧解）\\hfill 20mg*7粒/盒', quantity: '3 盒', usage: '20mg Qd. 口服 慢性病' }
+                ]
+            },
+            template2: {
+                hospitalName: 'General Hospital',
+                date: '2023-10-02',
+                name: 'Jane Doe',
+                gender: 'Female',
+                age: 25,
+                department: 'Dermatology',
+                patientId: '67890',
+                feeType: 'Self-Pay',
+                diagnosis: 'Eczema',
+                doctorName: 'Dr. Lee',
+                fee: '150',
+                medicines: [
+                    { name: 'Hydrocortisone', quantity: '15', usage: 'Twice daily' }
+                ]
+            }
+        };
+
+        templateSelect.addEventListener('change', () => {
+            const selectedTemplate = templates[templateSelect.value];
+            if (selectedTemplate) {
+                document.getElementById('hospitalName').value = selectedTemplate.hospitalName;
+                document.getElementById('date').value = selectedTemplate.date;
+                document.getElementById('name').value = selectedTemplate.name;
+                document.getElementById('gender').value = selectedTemplate.gender;
+                document.getElementById('age').value = selectedTemplate.age;
+                document.getElementById('department').value = selectedTemplate.department;
+                document.getElementById('patientId').value = selectedTemplate.patientId;
+                document.getElementById('feeType').value = selectedTemplate.feeType;
+                document.getElementById('diagnosis').value = selectedTemplate.diagnosis;
+                document.getElementById('doctorName').value = selectedTemplate.doctorName;
+                document.getElementById('fee').value = selectedTemplate.fee;
+
+                medicinesDiv.innerHTML = '';
+                selectedTemplate.medicines.forEach(medicine => {
+                    const medicineDiv = document.createElement('div');
+                    medicineDiv.classList.add('medicine');
+                    medicineDiv.innerHTML = `
+                        <label for="medicineName">Medicine Name:</label>
+                        <input type="text" class="medicineName" value="${medicine.name}" required>
+                        <label for="medicineQuantity">Quantity:</label>
+                        <input type="text" class="medicineQuantity" value="${medicine.quantity}" required>
+                        <label for="medicineUsage">Usage:</label>
+                        <input type="text" class="medicineUsage" value="${medicine.usage}" required>
+                        <button type="button" class="removeMedicine">Remove</button>
+                    `;
+                    medicinesDiv.appendChild(medicineDiv);
+
+                    medicineDiv.querySelector('.removeMedicine').addEventListener('click', () => {
+                        medicinesDiv.removeChild(medicineDiv);
+                });
+            })
+        }
+    });
+
+        addMedicineButton.addEventListener('click', () => {
+            const medicineDiv = document.createElement('div');
+            medicineDiv.classList.add('medicine');
+            medicineDiv.innerHTML = `
+                <label for="medicineName">Medicine Name:</label>
+                <input type="text" class="medicineName" required>
+                <label for="medicineQuantity">Quantity:</label>
+                <input type="text" class="medicineQuantity" required>
+                <label for="medicineUsage">Usage:</label>
+                <input type="text" class="medicineUsage" required>
+                <button type="button" class="removeMedicine">Remove</button>
+            `;
+            medicinesDiv.appendChild(medicineDiv);
+
+            medicineDiv.querySelector('.removeMedicine').addEventListener('click', () => {
+                medicinesDiv.removeChild(medicineDiv);
+            });
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            statusMessage.textContent = 'Generating prescription...';
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            data.medicines = Array.from(document.querySelectorAll('.medicine')).map(medicineDiv => ({
+                name: medicineDiv.querySelector('.medicineName').value,
+                quantity: medicineDiv.querySelector('.medicineQuantity').value,
+                usage: medicineDiv.querySelector('.medicineUsage').value
+            }));
+
+            try {
+                const response = await fetch('/compile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'prescription.pdf';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    statusMessage.textContent = 'Prescription generated successfully!';
+                } else {
+                    const contentType = response.headers.get('Content-Type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        statusMessage.textContent = JSON.stringify(errorData);
+                    } else {
+                        statusMessage.textContent = 'An error occurred, but the server did not return JSON.';
+                    }
+                }
+            } catch (error) {
+                statusMessage.textContent = 'Failed to connect to the server.';
+            }
+        });
+    </script>
+    <footer style="margin-top: 50px; padding: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center;">
+        <p>
+            <strong>法律声明：</strong> 本程序仅供持证执业医师技术验证使用。非医师行医属违法行为。
+        </p>
+        <p>
+            本软件受 <strong>GNU AGPL-3.0</strong> 协议授权。根据协议要求，本项目源代码对公众开放。
+        </p>
+        <div style="margin-top: 10px;">
+            <a href="/source" target="_blank" style="color: #007bff; text-decoration: none; border: 1px solid #007bff; padding: 5px 15px; border-radius: 4px;">
+                获取项目源代码 (Source Code)
+            </a>
+        </div>
+        <p style="margin-top: 10px; font-size: 12px; color: #999;">
+            Build Version: <span id="app-version">VERSION</span>
+        </p>
+    </footer>
+</body>
+</html>

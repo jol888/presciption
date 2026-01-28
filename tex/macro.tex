@@ -1,0 +1,41 @@
+% Edited
+
+% User Defined Values
+
+\newcommand{\textHospitalName}{}
+\newcommand{\textPatientName}{}
+\newcommand{\textPatientGender}{}
+\newcommand{\textPatientAge}{}
+\newcommand{\textPatientDep}{}
+\newcommand{\textPatientID}{}
+\newcommand{\textPatientFeeType}{}
+\newcommand{\textPatientDateYear}{\the\year}
+\newcommand{\textPatientDateMonth}{\the\month}
+\newcommand{\textPatientDateDay}{\the\day}
+\newcommand{\textPatientDiag}{}
+\newcommand{\textDoctorName}{}
+\newcommand{\textFee}{}
+
+% Warning: Set this value to blank may be criminal in some countries and regions.
+\newcommand{\textWatermark}{模板示例}
+
+% End
+
+\newcommand{\styleNormalText}{\songti \fontsize{15}{15} \selectfont }
+\newcommand{\blockUnderlinedText}[1]
+    {\uline{\space\space #1 \space\space}}
+\newcommand{\blockRSign}
+    {{\bfseries \sffamily \fontsize{40}{40} \selectfont \; R.}}
+\newcommand{\blockMedicine}[3]{
+    {
+        \LARGE #1
+        \hfill
+        \large #2
+        % \hfill
+    }
+    \\
+    \hspace*{1cm}
+    {
+        \large 用法: #3
+    }
+}
