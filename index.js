@@ -462,7 +462,7 @@ app.use(async (ctx, next) => {
             ctx.body = pdfBuffer;
             
         } catch (error) {
-            console.error(`[Request ${requestId}] Compilation failed:`, error.message);
+            console.error(`[Request ${requestId}] Compilation failed:`, error);
             ctx.status = 500;
             ctx.body = { 
                 error: 'LaTeX compilation failed',
