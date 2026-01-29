@@ -11,9 +11,11 @@
 3. **render.yaml** - Render.com 部署配置
 4. **DEPLOYMENT.md** - 本部署指南
 
-## 部署到 Render.com
+## 部署到云平台
 
-### 步骤 1: 准备 GitHub 仓库
+### 选项 A: 部署到 Render.com
+
+#### 步骤 1: 准备 GitHub 仓库
 
 1. 确保所有更改已提交到 GitHub
 2. 确认以下文件在仓库中：
@@ -23,7 +25,7 @@
    - `index.js`
    - `tex/` 目录中的所有文件
 
-### 步骤 2: 在 Render.com 创建服务
+#### 步骤 2: 在 Render.com 创建服务
 
 1. 登录 [Render.com](https://render.com)
 2. 点击 "New +" → "Web Service"
@@ -38,6 +40,33 @@
 
 6. 点击 "Create Web Service"
 7. Render 会自动检测 `render.yaml` 配置并开始部署
+
+### 选项 B: 部署到 Koyeb
+
+#### 步骤 1: 准备 GitHub 仓库
+
+1. 确保所有更改已提交到 GitHub
+2. 确认以下文件在仓库中：
+   - `Dockerfile`
+   - `koyeb.yaml`
+   - `package.json`
+   - `index.js`
+   - `tex/` 目录中的所有文件
+
+#### 步骤 2: 在 Koyeb 创建服务
+
+1. 登录 [Koyeb](https://www.koyeb.com)
+2. 点击 "Create App"
+3. 选择 "GitHub" 作为部署源
+4. 选择你的仓库和分支
+5. Koyeb 会自动检测 `koyeb.yaml` 配置并开始部署
+
+#### Koyeb 注意事项
+
+1. **镜像大小限制**: Koyeb 有 2GB 镜像大小限制，已优化 Dockerfile 符合要求
+2. **前台进程**: 确保应用在前台运行（已修改 CMD 为 `["bun", "index.js"]`）
+3. **健康检查**: 配置了 `/status` 端点作为健康检查
+4. **磁盘空间**: 配置了 2GB 磁盘空间以满足 TeX Live 需求
 
 ### 步骤 3: 获取授权码
 

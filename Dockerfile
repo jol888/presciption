@@ -52,5 +52,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD bun -e "import('node:http').then(http => http.get('http://localhost:3000/status', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1)))"
 
-# 启动命令
-CMD ["bun", "run", "index.js"]
+# 启动命令 - 使用直接执行而不是bun run，确保前台运行
+CMD ["bun", "index.js"]

@@ -1,0 +1,45 @@
+# Koyeb部署配置
+# 处方生成服务器
+
+name: prescription-server
+type: web
+region: fra
+instance:
+  type: nano
+  disk:
+    size: 2048  # 2GB磁盘空间，满足TeX Live需求
+  ports:
+    - port: 80
+      protocol: http
+      public: true
+  env:
+    - name: NODE_ENV
+      value: production
+    - name: PORT
+      value: "80"
+    - name: MAX_CONCURRENT_COMPILATIONS
+      value: "3"
+    - name: COMPILATION_TIMEOUT_MS
+      value: "30000"
+  health_checks:
+    http:
+      path: /status
+      port: 80
+      interval: 30
+      timeout: 3
+      initial_delay: 10
+      success_threshold: 1
+      failure_threshold: 3
+  scaling:
+    min: 1
+    max: 1
+  routes:
+    - path: /
+      port: 3000
+      protocol: http
+  docker:
+    file: Dockerfile
+    args: []
+  build:
+    command: []
+    args: []
