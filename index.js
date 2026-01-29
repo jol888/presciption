@@ -14,6 +14,7 @@ import { EventEmitter } from 'events';
 import mainTex from "./tex/main.tex" with { type: "text" };
 import macroTex from "./tex/macro.tex" with { type: "text" };
 import indexHTML from "./index.html" with { type: "text" };
+import stylesCSS from "./styles.css" with { type: "text" };
 
 import packageJson from "./package.json" with { type: "json" };
 import { signPng } from './signPng';
@@ -229,14 +230,25 @@ app.use(async (ctx, next) => {
     }
 });
 
+// Static file serving middleware
 app.use(async (ctx, next) => {
+    // Serve CSS file
+    if (ctx.method === 'GET' && ctx.path === '/styles.css') {
+        ctx.status = 200;
+        ctx.type = 'text/css';
+        ctx.body = stylesCSS;
+        return;
+    }
+    
+    // Serve HTML file
     if (ctx.method === 'GET' && ctx.path === '/') {
         ctx.status = 200;
         ctx.type = 'text/html';
         ctx.body = indexHTML.replace('{{VERSION}}', VERSION).replace('{{AUTH_BASE}}', authBase);
-    } else {
-        await next();
+        return;
     }
+    
+    await next();
 });
 
 // Status monitoring endpoint
