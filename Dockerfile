@@ -1,22 +1,24 @@
 # 处方生成服务器 Dockerfile
 # 优化镜像大小，支持中文LaTeX编译
-# 使用Debian基础镜像以获得更好的LaTeX包支持
+# 使用最小化TeX Live安装以减少镜像大小
 
 # 使用单阶段构建简化镜像
 FROM oven/bun:debian
 
-# 安装LaTeX和相关依赖
-RUN apt-get update && apt-get install -y \
+# 安装最小化的LaTeX和相关依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
     texlive-xetex \
-    texlive-latex-extra \
-    texlive-fonts-extra \
+    texlive-latex-recommended \
+    texlive-fonts-recommended \
     texlive-lang-chinese \
     texlive-pstricks \
     fonts-wqy-zenhei \
-    fonts-noto-cjk \
     ghostscript \
     # 清理缓存以减小镜像大小
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /usr/share/doc/* \
+    && rm -rf /usr/share/man/*
 
 # 创建工作目录
 WORKDIR /app
