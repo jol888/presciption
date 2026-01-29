@@ -150,6 +150,7 @@ app.use(async (ctx, next) => {
         } catch (error) {
             ctx.status = 500;
             ctx.body = { error: 'Failed to compile LaTeX code', details: error.message };
+console.log(error.message)
         }
     } else {
         await next();
