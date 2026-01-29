@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texlive-fonts-recommended \
     texlive-lang-chinese \
     texlive-pstricks \
+    lmodern \
+    cm-super \
     fonts-wqy-zenhei \
     ghostscript \
     # 清理缓存以减小镜像大小
