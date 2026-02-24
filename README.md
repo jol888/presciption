@@ -8,11 +8,7 @@
 
 ### 关于 DEMO
 
-**⌛ 因为服务器很烂，所以 DEMO 生成一份处方的时间可能需要 40s 或更久。请耐心等候**
-
-地址：http://roasted-babbette-xhze-dd404ee2.koyeb.app/
-
-感谢 Koyeb 平台提供的免费服务器。
+**跪求巨佬搭 DEMO**
 
 ### 本地运行
 
