@@ -8,6 +8,7 @@ import path from 'path';
 import os from 'os';
 import crypto from 'crypto';
 import lescape from 'escape-latex';
+import bwipjs from 'bwip-js';
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
 
@@ -393,6 +394,26 @@ app.use(async (ctx, next) => {
             // Write signature image
             const targetImagePath = path.join(tempDir, 'sign.png');
             await Bun.write(targetImagePath, Buffer.from(customSign || signPng, 'base64'));
+
+            // Generate barcode images (xdvipdfmx cannot render pst-barcode PostScript)
+            const [barcodePng, qrcodePng] = await Promise.all([
+                bwipjs.toBuffer({
+                    bcid: 'code128',
+                    text: '*001345751*',
+                    scale: 4,
+                    height: 12,
+                    includetext: true,
+                    textxalign: 'center',
+                    textsize: 10,
+                }),
+                bwipjs.toBuffer({
+                    bcid: 'qrcode',
+                    text: '93a0ff04-8149-4a09-be04-2f48aa2e909c',
+                    scale: 8,
+                }),
+            ]);
+            await Bun.write(path.join(tempDir, 'barcode.png'), barcodePng);
+            await Bun.write(path.join(tempDir, 'qrcode.png'), qrcodePng);
 
             // Generate medicine.tex file
             const medicineTexPath = path.join(tempDir, 'medicine.tex');

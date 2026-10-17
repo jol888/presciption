@@ -3,7 +3,6 @@
 \documentclass[UTF8]{ctexart}
 \usepackage[T1]{fontenc}
 \usepackage{setspace}
-\usepackage{pst-barcode}
 \usepackage{tikz}
 % \usepackage{draftwatermark}
 \usepackage{dashrule}
@@ -97,11 +96,11 @@
     \node[xshift=-4cm,yshift=-2cm] at (current page.north east){
         \LARGE \heiti \fbox {普通}
     };
-    \node[xshift=2cm,yshift=-3cm] at (current page.north west){
-        \psbarcode{*001345751*}{includetext width=2 height=0.5 textsize=15 textgaps=2}{code128}
+    \node[xshift=2cm,yshift=-3cm,anchor=south west,inner sep=0] at (current page.north west){
+        \includegraphics[width=2in]{barcode.png}
     };
-    \node[xshift=-4cm,yshift=1cm] at (current page.south east){
-        \psbarcode{93a0ff04-8149-4a09-be04-2f48aa2e909c}{includetext width=1 height=1}{qrcode}
+    \node[xshift=-4cm,yshift=1cm,anchor=south west,inner sep=0] at (current page.south east){
+        \includegraphics[width=1in]{qrcode.png}
     };
     \node[xshift=6.5cm,yshift=6cm] at (current page.south west){
         \includegraphics[width=6cm,angle=8]{sign.png}
