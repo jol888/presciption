@@ -1,0 +1,41 @@
+% Edited
+
+% User Defined Values
+
+\newcommand{\textHospitalName}{测试医院}
+\newcommand{\textPatientName}{张三}
+\newcommand{\textPatientGender}{男}
+\newcommand{\textPatientAge}{30}
+\newcommand{\textPatientDep}{内科}
+\newcommand{\textPatientID}{001}
+\newcommand{\textPatientFeeType}{自费}
+\newcommand{\textPatientDateYear}{\the\year}
+\newcommand{\textPatientDateMonth}{\the\month}
+\newcommand{\textPatientDateDay}{\the\day}
+\newcommand{\textPatientDiag}{感冒}
+\newcommand{\textDoctorName}{李四}
+\newcommand{\textFee}{12.00}
+
+% Warning: Set this value to blank may be criminal in some countries and regions.
+\newcommand{\textWatermark}{模板示例}
+
+% End
+
+\newcommand{\styleNormalText}{\songti \fontsize{15}{15} \selectfont }
+\newcommand{\blockUnderlinedText}[1]
+    {\uline{\space\space #1 \space\space}}
+\newcommand{\blockRSign}
+    {{\bfseries \sffamily \fontsize{40}{40} \selectfont \; R.}}
+\newcommand{\blockMedicine}[3]{
+    {
+        \LARGE #1
+        \hfill
+        \large #2
+        % \hfill
+    }
+    \\
+    \hspace*{1cm}
+    {
+        \large 用法: #3
+    }
+}
